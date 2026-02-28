@@ -1,0 +1,41 @@
+version: "3.8"
+
+services:
+
+  php:
+    build: ./php
+    container_name: doaryapp_php
+    volumes:
+      - ./src:/var/www
+    networks:
+      - app-network
+
+  nginx:
+    image: nginx:latest
+    container_name: doaryapp_nginx
+    ports:
+      - "80:80"
+    volumes:
+      - ./src:/var/www
+      - ./nginx/default.conf:/etc/nginx/conf.d/default.conf
+    depends_on:
+      - php
+    networks:
+      - app-network
+
+  mysql:
+    image: mysql:8
+    container_name: doaryapp_mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: doary
+    volumes:
+      - mysql_data:/var/lib/mysql
+    networks:
+      - app-network
+
+networks:
+  app-network:
+
+volumes:
+  mysql_data:
