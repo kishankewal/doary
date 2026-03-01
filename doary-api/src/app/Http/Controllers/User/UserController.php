@@ -47,7 +47,6 @@ class UserController extends Controller {
             ], 422);
 
         } catch (Exception $e) {
-            // Log the exception for debugging (optional)
             $message = sprintf("Error in UserController@register: %s \n Stack : %s", $e->getMessage(), $e->getTraceAsString());
             Log::error($message);
 
